@@ -9,10 +9,10 @@ export default function ProjectCard({ projectObj }) {
   return (
     <Card className={styles.card}>
       <Card.Body className={styles.cardBody}>
-        <Link passHref href={`/project/${projectObj.firebaseKey}`}>
+        <Link passHref href={`/project/${projectObj.id}`}>
           <Card.Link className={styles.cardHeading}>📒</Card.Link>
         </Link>
-        <Link passHref href={`/project/${projectObj.firebaseKey}`}>
+        <Link passHref href={`/project/${projectObj.id}`}>
           <Card.Link className={styles.projectName}>{projectObj.title}</Card.Link>
         </Link>
       </Card.Body>
@@ -22,7 +22,7 @@ export default function ProjectCard({ projectObj }) {
 
 ProjectCard.propTypes = {
   projectObj: PropTypes.shape({
-    firebaseKey: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   }).isRequired,
 };
