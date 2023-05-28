@@ -48,12 +48,12 @@ const getSingleProject = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createProject = (project, uid) => new Promise((resolve, reject) => {
+const createProject = (project) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/projects`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `${uid}`,
+      Authorization: `${project.uid}`,
     },
     body: JSON.stringify(project),
   })

@@ -27,9 +27,8 @@ export default function ProjectDetails({ project }) {
   // }, [project]);
 
   const handleDelete = () => {
-    console.warn('ppopeh');
     // if (window.confirm(`Are you sure you want to delete "${project.title}"? This task cannot be undone.`)) {
-    //   deleteProjectDetails(project.firebaseKey).then(() => router.push('/'));
+    //   deleteProjectDetails(project.id).then(() => router.push('/'));
     // }
   };
 
@@ -46,16 +45,16 @@ export default function ProjectDetails({ project }) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className={cardStyles.dropdownMenu}>
-                  <Link passHref href={`/project/edit/${project.firebaseKey}`}>
+                  <Link passHref href={`/project/edit/${project.id}`}>
                     <Dropdown.Item className={cardStyles.dropdownItem}>Edit Project Name</Dropdown.Item>
                   </Link>
-                  <Link passHref href={`/add_user/${project.firebaseKey}`}>
+                  <Link passHref href={`/add_user/${project.id}`}>
                     <Dropdown.Item className={cardStyles.dropdownItem}>Add Another User</Dropdown.Item>
                   </Link>
-                  <Link passHref href={`/task/new/${project.firebaseKey}`}>
+                  <Link passHref href={`/task/new/${project.id}`}>
                     <Dropdown.Item className={cardStyles.dropdownItem}>Add Task</Dropdown.Item>
                   </Link>
-                  <Link passHref href={`/material/new/${project.firebaseKey}`}>
+                  <Link passHref href={`/material/new/${project.id}`}>
                     <Dropdown.Item className={cardStyles.dropdownItem}>Add Material</Dropdown.Item>
                   </Link>
                   <Dropdown.Item className={cardStyles.dropdownItem} onClick={handleDelete}>Delete Project</Dropdown.Item>
@@ -80,7 +79,7 @@ export default function ProjectDetails({ project }) {
 
 ProjectDetails.propTypes = {
   project: PropTypes.shape({
-    firebaseKey: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
     date_created: PropTypes.string,
     materials: PropTypes.array,

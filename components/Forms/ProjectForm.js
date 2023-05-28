@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-// import { createProject, updateProject } from '../../api/projectData';
 import { useAuth } from '../../utils/context/authContext';
 import formStyles from '../../styles/FormStyles.module.css';
 import GoBackBtn from '../GoBackBtn/GoBackBtn';
@@ -11,7 +10,7 @@ import { createProject, updateProject } from '../../utils/data/project_data';
 
 const initialState = {
   title: '',
-  firebaseKey: '',
+  id: '',
   uid: '',
   date_created: '',
 };
@@ -23,7 +22,7 @@ export default function ProjectForm({ projectObj }) {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (projectObj.firebaseKey) setFormInput(projectObj);
+    if (projectObj.id) setFormInput(projectObj);
   }, [projectObj]);
 
   const handleChange = (e) => {
@@ -36,14 +35,13 @@ export default function ProjectForm({ projectObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (projectObj.firebaseKey) {
-      updateProject(formInput).then(() => router.push(`/project/${projectObj.firebaseKey}`));
+    if (projectObj.id) {
+      updateProject(formInput).then(() => router.push(`/project/${projectObj.id}`));
     } else {
-      const payload = { ...formInput, uid: user.uid, date_created: new Date() };
-      createProject(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
-        updateProject(patchPayload).then(() => router.push(`/project/${patchPayload.firebaseKey}`));
-      });
+      const payload = {
+        ...formInput, uid: user.uid, date_created: new Date().toISOString().split('T')[0],
+      };
+      createProject(payload).then((project) => router.push(`/project/${project.id}`));
     }
   };
 
@@ -51,7 +49,7 @@ export default function ProjectForm({ projectObj }) {
     <>
       <div className={formStyles.formContainer}>
         <Form onSubmit={handleSubmit} className={formStyles.form}>
-          <Form.Label>{projectObj.firebaseKey ? 'Edit Project Name' : 'Enter Project Name'}</Form.Label>
+          <Form.Label>{projectObj.id ? 'Edit Project Name' : 'Enter Project Name'}</Form.Label>
           <InputGroup className="m-auto">
             <Form.Control
               className={formStyles.formInputField}
@@ -63,7 +61,7 @@ export default function ProjectForm({ projectObj }) {
               required
             />
             <button type="submit" className={formStyles.formBtn}>
-              {projectObj.firebaseKey ? 'Edit' : '+'}
+              {projectObj.id ? 'Edit' : '+'}
             </button>
           </InputGroup>
         </Form>
@@ -75,8 +73,8 @@ export default function ProjectForm({ projectObj }) {
 
 ProjectForm.propTypes = {
   projectObj: PropTypes.shape({
+    id: PropTypes.number,
     title: PropTypes.string,
-    firebaseKey: PropTypes.string,
     uid: PropTypes.string,
     date_created: PropTypes.string,
   }),
