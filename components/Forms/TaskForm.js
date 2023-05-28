@@ -8,24 +8,22 @@ import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createTask, updateTask } from '../../utils/data/task_data';
 
 const initialState = {
-  firebaseKey: '',
+  id: '',
   project_id: '',
   task_name: '',
   details: '',
   date_created: '',
   due_date: '',
-  todo: true,
-  complete: false,
-  in_progress: false,
+  status: '',
 };
 
-export default function TaskForm({ projectFirebaseKey, taskObj }) {
+export default function TaskForm({ projectId, taskObj }) {
   const [formInput, setFormInput] = useState(initialState);
 
   const router = useRouter();
 
   useEffect(() => {
-    if (taskObj.firebaseKey) setFormInput(taskObj);
+    if (taskObj.id) setFormInput(taskObj);
   }, [taskObj]);
 
   const handleChange = (e) => {
@@ -38,13 +36,13 @@ export default function TaskForm({ projectFirebaseKey, taskObj }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (taskObj.firebaseKey) {
-      updateTask(formInput).then(() => router.push(`/task/${taskObj.firebaseKey}`));
+    if (taskObj.id) {
+      updateTask(formInput).then(() => router.push(`/task/${taskObj.id}`));
     } else {
-      const payload = { ...formInput, date_created: new Date(), project_id: projectFirebaseKey };
+      const payload = { ...formInput, date_created: new Date(), project_id: projectId };
       createTask(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
-        updateTask(patchPayload).then(() => router.push(`/project/${projectFirebaseKey}`));
+        const patchPayload = { id: name };
+        updateTask(patchPayload).then(() => router.push(`/project/${projectId}`));
       });
     }
   };
@@ -87,7 +85,7 @@ export default function TaskForm({ projectFirebaseKey, taskObj }) {
               onChange={handleChange}
             />
           </Form.Group>
-          {taskObj.firebaseKey
+          {taskObj.id
             && (
               <Form.Group className="mb-3">
                 <Form.Label>Status</Form.Label>
@@ -145,7 +143,7 @@ export default function TaskForm({ projectFirebaseKey, taskObj }) {
             )}
           <div>
             <button type="submit" className={formStyles.formBtn}>
-              {taskObj.firebaseKey ? 'Edit Task' : 'Add Task'}
+              {taskObj.id ? 'Edit Task' : 'Add Task'}
             </button>
           </div>
         </Form>
@@ -156,21 +154,19 @@ export default function TaskForm({ projectFirebaseKey, taskObj }) {
 }
 
 TaskForm.propTypes = {
-  projectFirebaseKey: PropTypes.string,
+  projectId: PropTypes.string,
   taskObj: PropTypes.shape({
-    firebaseKey: PropTypes.string,
+    id: PropTypes.string,
     project_id: PropTypes.string,
     task_name: PropTypes.string,
     details: PropTypes.string,
     date_created: PropTypes.string,
     due_date: PropTypes.string,
-    todo: PropTypes.bool,
-    complete: PropTypes.bool,
-    in_progress: PropTypes.bool,
+    status: PropTypes.string,
   }),
 };
 
 TaskForm.defaultProps = {
-  projectFirebaseKey: '',
+  projectId: '',
   taskObj: initialState,
 };
