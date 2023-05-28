@@ -1,26 +1,51 @@
-import { Button } from 'react-bootstrap';
-import { signOut } from '../utils/auth';
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react-hooks/exhaustive-deps */
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Card } from 'react-bootstrap';
+import ProjectCard from '../components/Cards/ProjectCard';
 import { useAuth } from '../utils/context/authContext';
+import pagesStyles from '../styles/PagesStyles.module.css';
+import { getAllProjects } from '../utils/data/project_data';
 
 function Home() {
+  const [projects, setProjects] = useState([]);
   const { user } = useAuth();
+
+  useEffect(() => {
+    getAllProjects().then((userProjects) => setProjects(userProjects));
+  }, [user]);
+
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Hello {user.fbUser.displayName}! </h1>
-      <p>Your Bio: {user.bio}</p>
-      <p>Click the button below to logout!</p>
-      <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>
-        Sign Out
-      </Button>
-    </div>
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+      <div className={pagesStyles.headingDiv}>
+        <h4 className={pagesStyles.pageHeading}>{user.displayName}'s Projects:</h4>
+      </div>
+      {
+        projects.length
+          ? (
+            <div className={pagesStyles.projectCardsDiv}>
+              {projects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  projectObj={project}
+                />
+              ))}
+            </div>
+          )
+          : (
+            <div className={pagesStyles.pageHeading}>
+              <Link passHref href="/project/new">
+                <Card.Link className={pagesStyles.link}> Add a Project?</Card.Link>
+              </Link>
+            </div>
+          )
+      }
+    </>
   );
 }
 
