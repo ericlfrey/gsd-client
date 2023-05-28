@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/forbid-prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Dropdown } from 'react-bootstrap';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import Link from 'next/link';
 // import { deleteProjectDetails } from '../../api/mergedData';
 // import { getProjectMaterials } from '../../api/materialData';
 import cardStyles from '../../styles/CardStyles.module.css';
+import { getAllMaterials } from '../../utils/data/material_data';
 
 export default function ProjectDetails({ project }) {
   const [materials, setMaterials] = useState([]);
@@ -21,9 +22,9 @@ export default function ProjectDetails({ project }) {
       .toFixed(2)
     : '0';
 
-  // useEffect(() => {
-  //   getProjectMaterials(project.firebaseKey).then(setMaterials);
-  // }, [project]);
+  useEffect(() => {
+    getAllMaterials().then(setMaterials);
+  }, [project]);
 
   const handleDelete = () => {
     console.warn('ppopeh');
