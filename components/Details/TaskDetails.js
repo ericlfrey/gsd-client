@@ -44,7 +44,7 @@ export default function TaskDetails({ taskId }) {
           <footer className={`${cardStyles.cardSubtitle} blockquote-footer mt-2`}>Project: {task.project?.title}</footer>
           <footer className={`${cardStyles.cardSubtitle} blockquote-footer mt-2`}>Date Created: {new Date(task.date_created).toLocaleDateString()}</footer>
           <footer className={`${cardStyles.cardSubtitle} blockquote-footer mt-2`}>{task.due_date ? `Due Date: ${task.due_date}` : 'No due date'}</footer>
-          <Link passHref href={`/project/${task.project_id}`}>
+          <Link passHref href={`/project/${task.project?.id}`}>
             <Card.Link className={cardStyles.goBackBtn}> ← Go Back</Card.Link>
           </Link>
           <hr />

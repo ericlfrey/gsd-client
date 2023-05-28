@@ -26,7 +26,7 @@ export default function TaskCard({ taskObj, onChange }) {
           </Col>
           <Col>
             <Card.Text className={cardStyles.cardText}>
-              Status: {taskObj.todo ? 'Not Started' : taskObj.in_progress ? 'In Progress' : 'Complete'}
+              Status: {taskObj.status}
             </Card.Text>
           </Col>
           <Col>
@@ -62,9 +62,7 @@ TaskCard.propTypes = {
     details: PropTypes.string,
     date_created: PropTypes.string,
     due_date: PropTypes.string,
-    todo: PropTypes.bool,
-    complete: PropTypes.bool,
-    in_progress: PropTypes.bool,
+    status: PropTypes.string,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
 };
