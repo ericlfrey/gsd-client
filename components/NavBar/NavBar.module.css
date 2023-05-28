@@ -1,0 +1,48 @@
+.navbar {
+  background-color: #F0A04B;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  padding: 10px 20px;
+}
+
+.navbarBrand {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navbarNav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+}
+
+.navLinks {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navLink,
+.navLink:focus {
+  color: #183A1D;
+  margin-right: 30px;
+}
+
+.navLink:hover,
+.signOutBtn:hover {
+  color: #327a3d;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 .2px rgb(24, 58, 29));
+}
+
+.signOutBtn {
+  all: unset;
+  color: #183A1D;
+}
