@@ -2,7 +2,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-// import { getProjectDetails } from '../../api/mergedData';
 import MaterialCard from '../../components/Cards/MaterialCard';
 import TaskCard from '../../components/Cards/TaskCard';
 import ProjectDetails from '../../components/Details/ProjectDetails';
@@ -32,9 +31,9 @@ export default function ViewProjectPage() {
       <hr />
       <h4 className={pagesStyles.projectDetailsCardHeading}>Tasks:</h4>
       <div className={pagesStyles.projectDetailsTasksDiv}>
-        {project.projectTasks?.map((task) => (
+        {project.tasks?.map((task) => (
           <TaskCard
-            key={task.firebaseKey}
+            key={task.id}
             taskObj={task}
             onChange={getTheProjectDetails}
           />
@@ -42,9 +41,9 @@ export default function ViewProjectPage() {
       </div>
       <h4 className={pagesStyles.projectDetailsCardHeading}>Materials:</h4>
       <div className={pagesStyles.projectDetailsMaterialsDiv}>
-        {project.projectMaterials?.map((material) => (
+        {project.materials?.map((material) => (
           <MaterialCard
-            key={material.firebaseKey}
+            key={material.id}
             materialObj={material}
             onChange={getTheProjectDetails}
           />

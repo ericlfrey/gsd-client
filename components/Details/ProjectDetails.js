@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/forbid-prop-types */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Dropdown } from 'react-bootstrap';
 import Link from 'next/link';
@@ -8,23 +8,23 @@ import Link from 'next/link';
 // import { deleteProjectDetails } from '../../api/mergedData';
 // import { getProjectMaterials } from '../../api/materialData';
 import cardStyles from '../../styles/CardStyles.module.css';
-import { getAllMaterials } from '../../utils/data/material_data';
+// import { getAllMaterials } from '../../utils/data/material_data';
 
 export default function ProjectDetails({ project }) {
-  const [materials, setMaterials] = useState([]);
+  // const [materials, setMaterials] = useState([]);
 
   // const router = useRouter();
 
   const displayDate = new Date(project.date_created);
-  const totalCost = materials.length > 0
-    ? materials.map((material) => material.price * material.quantity)
+  const totalCost = project.materials?.length > 0
+    ? project.materials.map((material) => material.price * material.quantity)
       .reduce((a, b) => a + b)
       .toFixed(2)
     : '0';
 
-  useEffect(() => {
-    getAllMaterials().then(setMaterials);
-  }, [project]);
+  // useEffect(() => {
+  //   getAllMaterials().then(setMaterials);
+  // }, [project]);
 
   const handleDelete = () => {
     console.warn('ppopeh');
@@ -83,6 +83,6 @@ ProjectDetails.propTypes = {
     firebaseKey: PropTypes.string,
     title: PropTypes.string,
     date_created: PropTypes.string,
-    projectMaterials: PropTypes.array,
+    materials: PropTypes.array,
   }).isRequired,
 };

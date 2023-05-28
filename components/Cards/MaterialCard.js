@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Card, Col, Dropdown, Row,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import cardStyles from '../../styles/CardStyles.module.css';
-import { getSingleTask } from '../../utils/data/task_data';
+// import { getSingleTask } from '../../utils/data/task_data';
 import { deleteMaterial } from '../../utils/data/material_data';
 
 export default function MaterialCard({ materialObj, onChange }) {
-  const [task, setTask] = useState({});
-
-  useEffect(() => {
-    getSingleTask(materialObj.task_id).then(setTask);
-  }, [materialObj.task_id]);
-
   const handleDeleteMaterial = () => {
-    if (window.confirm(`Are you sure you want to delete "${materialObj.material_name}"? This task cannot be undone.`)) {
-      deleteMaterial(materialObj.firebaseKey).then(onChange);
+    if (window.confirm(`Are you sure you want to delete "${materialObj.name}"? This task cannot be undone.`)) {
+      deleteMaterial(materialObj.id).then(onChange);
     }
   };
 
@@ -26,24 +20,24 @@ export default function MaterialCard({ materialObj, onChange }) {
       <Card.Body>
         <Row>
           <Col>
-            <Link passHref href={`/material/${materialObj.firebaseKey}`}>
-              <Card.Link className={cardStyles.cardLink}>{materialObj.material_name}</Card.Link>
+            <Link passHref href={`/material/${materialObj.id}`}>
+              <Card.Link className={cardStyles.cardLink}>{materialObj.name}</Card.Link>
             </Link>
           </Col>
           <Col>
             <Card.Text className={cardStyles.cardText}>Status: {materialObj.acquired ? 'Acquired' : 'Not Acquired'}</Card.Text>
           </Col>
           <Col>
-            <Card.Text className={cardStyles.cardText}>Task: {task.task_name ? task.task_name : 'Not assigned'}</Card.Text>
+            <Card.Text className={cardStyles.cardText}>Task: {materialObj.task ? materialObj.task.name : 'Not assigned'}</Card.Text>
           </Col>
           <Col className={cardStyles.cardDropdown}>
             <Dropdown>
               <Dropdown.Toggle className={`toggle-btn ${cardStyles.cardActionsBtn}`} variant="success" />
               <Dropdown.Menu className={cardStyles.dropdownMenu}>
-                <Link passHref href={`/material/${materialObj.firebaseKey}`}>
+                <Link passHref href={`/material/${materialObj.id}`}>
                   <Dropdown.Item className={cardStyles.dropdownItem}>Details</Dropdown.Item>
                 </Link>
-                <Link passHref href={`/material/edit/${materialObj.firebaseKey}`}>
+                <Link passHref href={`/material/edit/${materialObj.id}`}>
                   <Dropdown.Item className={cardStyles.dropdownItem}>Edit</Dropdown.Item>
                 </Link>
                 <Dropdown.Item className={cardStyles.dropdownItem} onClick={handleDeleteMaterial}>Delete</Dropdown.Item>
@@ -58,13 +52,15 @@ export default function MaterialCard({ materialObj, onChange }) {
 
 MaterialCard.propTypes = {
   materialObj: PropTypes.shape({
-    firebaseKey: PropTypes.string,
+    id: PropTypes.number,
     project_id: PropTypes.string,
-    task_id: PropTypes.string,
-    material_name: PropTypes.string,
+    name: PropTypes.string,
     price: PropTypes.string,
     quantity: PropTypes.string,
     acquired: PropTypes.bool,
+    task: PropTypes.shape({
+      name: PropTypes.string,
+    }),
   }).isRequired,
   onChange: PropTypes.func.isRequired,
 };

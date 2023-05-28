@@ -7,12 +7,11 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import cardStyles from '../../styles/CardStyles.module.css';
 import { deleteTask } from '../../utils/data/task_data';
-// import { deleteTaskDetails } from '../../api/mergedData';
 
 export default function TaskCard({ taskObj, onChange }) {
   const handleDeleteTask = () => {
-    if (window.confirm(`Are you sure you want to delete "${taskObj.task_name}"? This task cannot be undone.`)) {
-      deleteTask(taskObj.firebaseKey).then(onChange);
+    if (window.confirm(`Are you sure you want to delete "${taskObj.name}"? This task cannot be undone.`)) {
+      deleteTask(taskObj.id).then(onChange);
     }
   };
 
@@ -21,8 +20,8 @@ export default function TaskCard({ taskObj, onChange }) {
       <Card.Body>
         <Row>
           <Col>
-            <Link passHref href={`/task/${taskObj.firebaseKey}`}>
-              <Card.Link className={cardStyles.cardLink}>{taskObj.task_name}</Card.Link>
+            <Link passHref href={`/task/${taskObj.id}`}>
+              <Card.Link className={cardStyles.cardLink}>{taskObj.name}</Card.Link>
             </Link>
           </Col>
           <Col>
@@ -39,10 +38,10 @@ export default function TaskCard({ taskObj, onChange }) {
             <Dropdown>
               <Dropdown.Toggle className={`toggle-btn ${cardStyles.cardActionsBtn}`} variant="success" />
               <Dropdown.Menu className={cardStyles.dropdownMenu}>
-                <Link passHref href={`/task/${taskObj.firebaseKey}`}>
+                <Link passHref href={`/task/${taskObj.id}`}>
                   <Dropdown.Item className={cardStyles.dropdownItem}>Details</Dropdown.Item>
                 </Link>
-                <Link passHref href={`/task/edit/${taskObj.firebaseKey}`}>
+                <Link passHref href={`/task/edit/${taskObj.id}`}>
                   <Dropdown.Item className={cardStyles.dropdownItem}>Edit</Dropdown.Item>
                 </Link>
                 <Dropdown.Item className={cardStyles.dropdownItem} onClick={handleDeleteTask}>Delete</Dropdown.Item>
@@ -57,9 +56,9 @@ export default function TaskCard({ taskObj, onChange }) {
 
 TaskCard.propTypes = {
   taskObj: PropTypes.shape({
-    firebaseKey: PropTypes.string,
+    id: PropTypes.number,
     project_id: PropTypes.string,
-    task_name: PropTypes.string,
+    name: PropTypes.string,
     details: PropTypes.string,
     date_created: PropTypes.string,
     due_date: PropTypes.string,
