@@ -1,0 +1,81 @@
+.topCard {
+  margin-top: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.card {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: solid 1px var(--light-green);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardSubtitle {
+  color: var(--light-green);
+}
+
+.cardText {
+  color: var(--orange);
+}
+
+.cardDropdown {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cardLink {
+  color: var(--light-green);
+  font-size: 25px;
+}
+
+.cardLink:hover {
+  color: var(--dark-green);
+}
+
+.cardActionsBtn {
+  all: unset;
+  font-size: 18px;
+  color: var(--dark-green);
+}
+
+.cardActionsBtn:hover,
+.cardActionsBtn:focus {
+  font-size: 18px;
+  background-color: transparent;
+  color: var(--light-green);
+  box-shadow: none;
+}
+
+.dropdownMenu {
+  background-color: var(--light-blue);
+}
+
+.dropdownItem {
+  color: #183A1D;
+  font-size: 18px;
+}
+
+.dropdownItem:hover {
+  background-color: var(--light-green);
+}
+
+.detailsText {
+  color: var(--light-green);
+  margin-left: 25px;
+}
+
+.goBackBtn {
+  all: unset;
+  color: var(--dark-green);
+  font-size: 25px;
+}
+
+.goBackBtn:hover {
+  color: var(--light-green);
+}

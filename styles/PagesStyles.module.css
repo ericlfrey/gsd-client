@@ -1,0 +1,40 @@
+.headingDiv {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.link {
+  color: var(--dark-green);
+  font-size: 25px;
+}
+
+.link:hover {
+  color: var(--light-green);
+}
+
+.pageHeading {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.projectCardsDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Project Details Page  */
+
+.projectDetailsCardHeading {
+  font-style: italic;
+  margin-top: 25px;
+}
+
+.projectDetailsTasksDiv {
+  margin-bottom: 25px;
+}
+
+.projectDetailsMaterialsDiv {
+  margin-bottom: 100px;
+}
