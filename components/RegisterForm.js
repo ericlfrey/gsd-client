@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { registerUser } from '../utils/auth'; // Update with path to registerUser
+import formStyles from '../styles/FormStyles.module.css';
 
 function RegisterForm({ user, updateUser }) {
   const [formData, setFormData] = useState({
@@ -16,20 +16,46 @@ function RegisterForm({ user, updateUser }) {
     registerUser(formData).then(() => updateUser(user.uid));
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>First Name</Form.Label>
-        <Form.Control name="first_name" required placeholder="Enter your first name" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Last Name</Form.Label>
-        <Form.Control name="last_name" required placeholder="Enter your last name" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+    <div className={formStyles.formContainer}>
+      <Form onSubmit={handleSubmit} className={formStyles.form}>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            name="first_name"
+            className={formStyles.formInputField}
+            placeholder="Enter your first name"
+            autoComplete="off"
+            required
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+            name="last_name"
+            className={formStyles.formInputField}
+            placeholder="Enter your last name"
+            autoComplete="off"
+            required
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <div>
+          <button type="submit" className={formStyles.formBtn}>
+            Submit
+          </button>
+        </div>
+      </Form>
+    </div>
   );
 }
 
