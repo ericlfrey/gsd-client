@@ -8,7 +8,7 @@ import { createTask, updateTask } from '../../utils/data/task_data';
 
 const initialState = {
   // id: '',
-  project: '',
+  // project: '',
   name: '',
   details: '',
   date_created: '',
