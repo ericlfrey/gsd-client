@@ -13,6 +13,7 @@ function Home() {
   const [projects, setProjects] = useState([]);
   const { user } = useAuth();
   const displayName = `${user.first_name} ${user.last_name}`;
+  console.warn(user);
 
   useEffect(() => {
     getUserProjects(user.uid).then((userProjects) => setProjects(userProjects));
