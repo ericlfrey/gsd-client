@@ -8,8 +8,8 @@ import { createTask, updateTask } from '../../utils/data/task_data';
 
 const initialState = {
   id: '',
-  project_id: '',
-  task_name: '',
+  project: '',
+  name: '',
   details: '',
   date_created: '',
   due_date: '',
@@ -36,7 +36,7 @@ export default function TaskForm({ projectId, taskObj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskObj.id) {
-      updateTask(formInput).then(() => router.push(`/project/${projectId}`));
+      updateTask(formInput).then(() => router.push(`/project/${taskObj.project?.id}`));
     } else {
       const payload = { ...formInput, date_created: new Date().toISOString().split('T')[0], project: projectId };
       createTask(payload).then(() => router.push(`/project/${projectId}`));
@@ -52,8 +52,8 @@ export default function TaskForm({ projectId, taskObj }) {
             <Form.Control
               className={formStyles.formInputField}
               type="text"
-              name="task_name"
-              value={formInput.task_name}
+              name="name"
+              value={formInput.name}
               onChange={handleChange}
               autoComplete="off"
               required
@@ -85,56 +85,18 @@ export default function TaskForm({ projectId, taskObj }) {
             && (
               <Form.Group className="mb-3">
                 <Form.Label>Status</Form.Label>
-                <div key="inline-radio" className="mb-3">
-                  <Form.Check
-                    inline
-                    id="todo"
-                    type="radio"
-                    label="To Do"
-                    name="todo"
-                    checked={formInput.todo}
-                    onChange={(e) => {
-                      setFormInput((prevState) => ({
-                        ...prevState,
-                        todo: e.target.checked,
-                        in_progress: !e.target.checked,
-                        complete: !e.target.checked,
-                      }));
-                    }}
-                  />
-                  <Form.Check
-                    inline
-                    id="in_progress"
-                    type="radio"
-                    label="In Progress"
-                    name="in_progress"
-                    checked={formInput.in_progress}
-                    onChange={(e) => {
-                      setFormInput((prevState) => ({
-                        ...prevState,
-                        in_progress: e.target.checked,
-                        todo: !e.target.checked,
-                        complete: !e.target.checked,
-                      }));
-                    }}
-                  />
-                  <Form.Check
-                    inline
-                    id="complete"
-                    type="radio"
-                    label="Complete"
-                    name="complete"
-                    checked={formInput.complete}
-                    onChange={(e) => {
-                      setFormInput((prevState) => ({
-                        ...prevState,
-                        complete: e.target.checked,
-                        in_progress: !e.target.checked,
-                        todo: !e.target.checked,
-                      }));
-                    }}
-                  />
-                </div>
+                <Form.Select
+                  className={formStyles.formInputField}
+                  name="status"
+                  onChange={handleChange}
+                  value={formInput.status}
+                  required
+                >
+                  {/* <option value="">Choose</option> */}
+                  <option value="Not Started">Not Started </option>
+                  <option value="In Progress">In Progress </option>
+                  <option value="Complete">Complete </option>
+                </Form.Select>
               </Form.Group>
             )}
           <div>
@@ -152,9 +114,9 @@ export default function TaskForm({ projectId, taskObj }) {
 TaskForm.propTypes = {
   projectId: PropTypes.string,
   taskObj: PropTypes.shape({
-    id: PropTypes.string,
-    project_id: PropTypes.string,
-    task_name: PropTypes.string,
+    id: PropTypes.number,
+    project: PropTypes.string,
+    name: PropTypes.string,
     details: PropTypes.string,
     date_created: PropTypes.string,
     due_date: PropTypes.string,
