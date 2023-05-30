@@ -10,7 +10,6 @@ import { createProject, updateProject } from '../../utils/data/project_data';
 
 const initialState = {
   title: '',
-  // id: null,
   uid: '',
   date_created: '',
 };
