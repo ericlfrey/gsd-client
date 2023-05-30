@@ -19,7 +19,7 @@ export default function AddMaterialPage() {
       <Head>
         <title>Add Material to {project.title}</title>
       </Head>
-      <MaterialForm projectId={projectId} />
+      <MaterialForm projectId={Number(projectId)} />
     </>
   );
 }

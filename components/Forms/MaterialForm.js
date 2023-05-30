@@ -2,31 +2,41 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-// import { getProjectTasks } from '../../api/taskData';
-// import { createMaterial, updateMaterial } from '../../api/materialData';
 import formStyles from '../../styles/FormStyles.module.css';
 import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createMaterial, updateMaterial } from '../../utils/data/material_data';
+import { getSingleProject } from '../../utils/data/project_data';
 
 const initialState = {
-  id: '',
-  project_id: '',
-  task_id: '',
-  material_name: '',
-  price: '',
-  quantity: '',
+  // id: 0,
+  // project: 0,
+  // task: 0,
+  name: '',
+  price: 0,
+  quantity: 0,
   acquired: false,
 };
 
 export default function MaterialForm({ projectId, materialObj }) {
   const [formInput, setFormInput] = useState(initialState);
-  // const [projectTasks, setProjectTasks] = useState([]);
+  const [project, setProject] = useState({});
 
   const router = useRouter();
 
   useEffect(() => {
-    // getProjectTasks(projectId).then(setProjectTasks);
-    // if (materialObj.firebaseKey) setFormInput(materialObj);
+    if (projectId) getSingleProject(projectId).then(setProject);
+    if (materialObj.id) {
+      setFormInput((prevState) => ({
+        ...prevState,
+        id: materialObj.id,
+        name: materialObj.name,
+        price: materialObj.price,
+        quantity: materialObj.quantity,
+        acquired: materialObj.acquired,
+        project: materialObj.project,
+        task: materialObj.task?.id,
+      }));
+    }
   }, [materialObj, projectId]);
 
   const handleChange = (e) => {
@@ -40,13 +50,22 @@ export default function MaterialForm({ projectId, materialObj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (materialObj.id) {
-      updateMaterial(formInput).then(router.push(`/project/${projectId}`));
+      const updatedMaterial = {
+        ...formInput,
+        price: Number(formInput.price),
+        quantity: Number(formInput.quantity),
+        project: formInput.project.id,
+        task: Number(formInput.task),
+      };
+      updateMaterial(updatedMaterial).then(router.push(`/project/${projectId}`));
     } else {
-      const payload = { ...formInput, project_id: projectId };
-      createMaterial(payload).then(({ name }) => {
-        const patchPayload = { id: name };
-        updateMaterial(patchPayload).then(router.push(`/project/${projectId}`));
-      });
+      const newMaterial = {
+        ...formInput,
+        project: projectId,
+        price: Number(formInput.price),
+        quantity: Number(formInput.quantity),
+      };
+      createMaterial(newMaterial).then(router.push(`/project/${projectId}`));
     }
   };
 
@@ -59,8 +78,8 @@ export default function MaterialForm({ projectId, materialObj }) {
             <Form.Control
               className={formStyles.formInputField}
               type="text"
-              name="material_name"
-              value={formInput.material_name}
+              name="name"
+              value={formInput.name}
               onChange={handleChange}
               autoComplete="off"
               required
@@ -94,32 +113,32 @@ export default function MaterialForm({ projectId, materialObj }) {
               required
             />
           </Form.Group>
-          {/* {projectTasks.length
+          {project?.tasks?.length
             ? (
               <Form.Group className="mb-3">
                 <Form.Label>Assign to Task</Form.Label>
                 <Form.Select
                   className={formStyles.formInputField}
-                  name="task_id"
+                  name="task"
                   onChange={handleChange}
-                  value={formInput.task_id}
+                  value={formInput.task}
                   required
                 >
                   <option value="">Choose</option>
                   {
-                    projectTasks.map((task) => (
+                    project?.tasks?.map((task) => (
                       <option
                         key={task.id}
                         value={task.id}
                       >
-                        {task.task_name}
+                        {task.name}
                       </option>
                     ))
                   }
                 </Form.Select>
               </Form.Group>
             )
-            : ''} */}
+            : ''}
           {materialObj.id
             ? (
               <Form.Group className="mb-3">
@@ -151,19 +170,23 @@ export default function MaterialForm({ projectId, materialObj }) {
 }
 
 MaterialForm.propTypes = {
-  projectId: PropTypes.string,
+  projectId: PropTypes.number,
   materialObj: PropTypes.shape({
     id: PropTypes.number,
-    project_id: PropTypes.string,
-    task_id: PropTypes.string,
-    material_name: PropTypes.string,
-    price: PropTypes.string,
-    quantity: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    quantity: PropTypes.number,
     acquired: PropTypes.bool,
+    project: PropTypes.shape({
+      id: PropTypes.number,
+    }),
+    task: PropTypes.shape({
+      id: PropTypes.number,
+    }),
   }),
 };
 
 MaterialForm.defaultProps = {
-  projectId: '',
+  projectId: 0,
   materialObj: initialState,
 };

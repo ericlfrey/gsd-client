@@ -55,7 +55,7 @@ MaterialCard.propTypes = {
     id: PropTypes.number,
     project_id: PropTypes.string,
     name: PropTypes.string,
-    price: PropTypes.string,
+    price: PropTypes.number,
     quantity: PropTypes.number,
     acquired: PropTypes.bool,
     task: PropTypes.shape({
