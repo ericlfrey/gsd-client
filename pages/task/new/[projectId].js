@@ -19,7 +19,7 @@ export default function AddTaskPage() {
       <Head>
         <title>Add Task to {project.title}</title>
       </Head>
-      <TaskForm projectId={projectId} />
+      <TaskForm projectId={Number(projectId)} />
     </>
   );
 }

@@ -7,7 +7,7 @@ import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createTask, updateTask } from '../../utils/data/task_data';
 
 const initialState = {
-  id: '',
+  // id: '',
   project: '',
   name: '',
   details: '',
@@ -112,19 +112,21 @@ export default function TaskForm({ projectId, taskObj }) {
 }
 
 TaskForm.propTypes = {
-  projectId: PropTypes.string,
+  projectId: PropTypes.number,
   taskObj: PropTypes.shape({
     id: PropTypes.number,
-    project: PropTypes.string,
     name: PropTypes.string,
     details: PropTypes.string,
     date_created: PropTypes.string,
     due_date: PropTypes.string,
     status: PropTypes.string,
+    project: PropTypes.shape({
+      id: PropTypes.number,
+    }),
   }),
 };
 
 TaskForm.defaultProps = {
-  projectId: '',
+  projectId: 0,
   taskObj: initialState,
 };

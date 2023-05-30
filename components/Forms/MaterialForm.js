@@ -8,12 +8,12 @@ import { createMaterial, updateMaterial } from '../../utils/data/material_data';
 import { getSingleProject } from '../../utils/data/project_data';
 
 const initialState = {
-  id: '',
-  project: 0,
-  task: 0,
+  // id: 0,
+  // project: 0,
+  // task: 0,
   name: '',
-  price: '',
-  quantity: '',
+  price: 0,
+  quantity: 0,
   acquired: false,
 };
 
@@ -25,7 +25,19 @@ export default function MaterialForm({ projectId, materialObj }) {
 
   useEffect(() => {
     if (projectId) getSingleProject(projectId).then(setProject);
-  }, [projectId]);
+    if (materialObj.id) {
+      setFormInput((prevState) => ({
+        ...prevState,
+        id: materialObj.id,
+        name: materialObj.name,
+        price: materialObj.price,
+        quantity: materialObj.quantity,
+        acquired: materialObj.acquired,
+        project: materialObj.project,
+        task: materialObj.task?.id,
+      }));
+    }
+  }, [materialObj, projectId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,10 +50,22 @@ export default function MaterialForm({ projectId, materialObj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (materialObj.id) {
-      updateMaterial(formInput).then(router.push(`/project/${projectId}`));
+      const updatedMaterial = {
+        ...formInput,
+        price: Number(formInput.price),
+        quantity: Number(formInput.quantity),
+        project: formInput.project.id,
+        task: Number(formInput.task),
+      };
+      updateMaterial(updatedMaterial).then(router.push(`/project/${projectId}`));
     } else {
-      const payload = { ...formInput, project: projectId };
-      createMaterial(payload).then(router.push(`/project/${projectId}`));
+      const newMaterial = {
+        ...formInput,
+        project: projectId,
+        price: Number(formInput.price),
+        quantity: Number(formInput.quantity),
+      };
+      createMaterial(newMaterial).then(router.push(`/project/${projectId}`));
     }
   };
 
@@ -97,7 +121,7 @@ export default function MaterialForm({ projectId, materialObj }) {
                   className={formStyles.formInputField}
                   name="task"
                   onChange={handleChange}
-                  value={formInput.task_id}
+                  value={formInput.task}
                   required
                 >
                   <option value="">Choose</option>
@@ -146,19 +170,23 @@ export default function MaterialForm({ projectId, materialObj }) {
 }
 
 MaterialForm.propTypes = {
-  projectId: PropTypes.string,
+  projectId: PropTypes.number,
   materialObj: PropTypes.shape({
-    id: PropTypes.string,
-    project: PropTypes.number,
-    task: PropTypes.number,
+    id: PropTypes.number,
     name: PropTypes.string,
-    price: PropTypes.string,
-    quantity: PropTypes.string,
+    price: PropTypes.number,
+    quantity: PropTypes.number,
     acquired: PropTypes.bool,
+    project: PropTypes.shape({
+      id: PropTypes.number,
+    }),
+    task: PropTypes.shape({
+      id: PropTypes.number,
+    }),
   }),
 };
 
 MaterialForm.defaultProps = {
-  projectId: '',
+  projectId: 0,
   materialObj: initialState,
 };
