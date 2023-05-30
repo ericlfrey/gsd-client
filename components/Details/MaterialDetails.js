@@ -2,23 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { Card, Dropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import cardStyles from '../../styles/CardStyles.module.css';
-import { getSingleMaterial } from '../../utils/data/material_data';
+import { deleteMaterial, getSingleMaterial } from '../../utils/data/material_data';
+import { getSingleProject } from '../../utils/data/project_data';
 
 export default function MaterialDetails({ materialId }) {
   const [material, setMaterial] = useState({});
+  const [project, setProject] = useState({});
 
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
-    getSingleMaterial(materialId).then(setMaterial);
+    getSingleMaterial(materialId).then((materialObj) => {
+      setMaterial(materialObj);
+      getSingleProject(materialObj.project?.id).then(setProject);
+    });
   }, [materialId]);
 
   const handleDeleteMaterial = () => {
-    // if (window.confirm(`Are you sure you want to delete "${material.material_name}"? This task cannot be undone.`)) {
-    //   deleteMaterial(firebaseKey).then(router.push(`/project/${project.firebaseKey}`));
-    // }
+    if (window.confirm(`Are you sure you want to delete "${material.material_name}"? This task cannot be undone.`)) {
+      deleteMaterial(materialId).then(router.push(`/project/${project.id}`));
+    }
   };
 
   return (
@@ -59,5 +64,5 @@ export default function MaterialDetails({ materialId }) {
 }
 
 MaterialDetails.propTypes = {
-  materialId: PropTypes.number.isRequired,
+  materialId: PropTypes.string.isRequired,
 };
