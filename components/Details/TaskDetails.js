@@ -57,5 +57,5 @@ export default function TaskDetails({ taskId }) {
 }
 
 TaskDetails.propTypes = {
-  taskId: PropTypes.number.isRequired,
+  taskId: PropTypes.string.isRequired,
 };

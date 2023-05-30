@@ -5,14 +5,9 @@ import PropTypes from 'prop-types';
 import { Card, Dropdown } from 'react-bootstrap';
 import Link from 'next/link';
 // import { useRouter } from 'next/router';
-// import { deleteProjectDetails } from '../../api/mergedData';
-// import { getProjectMaterials } from '../../api/materialData';
 import cardStyles from '../../styles/CardStyles.module.css';
-// import { getAllMaterials } from '../../utils/data/material_data';
 
 export default function ProjectDetails({ project }) {
-  // const [materials, setMaterials] = useState([]);
-
   // const router = useRouter();
 
   const displayDate = new Date(project.date_created);
@@ -21,10 +16,6 @@ export default function ProjectDetails({ project }) {
       .reduce((a, b) => a + b)
       .toFixed(2)
     : '0';
-
-  // useEffect(() => {
-  //   getAllMaterials().then(setMaterials);
-  // }, [project]);
 
   const handleDelete = () => {
     // if (window.confirm(`Are you sure you want to delete "${project.title}"? This task cannot be undone.`)) {
