@@ -5,7 +5,6 @@ import {
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import cardStyles from '../../styles/CardStyles.module.css';
-// import { getSingleTask } from '../../utils/data/task_data';
 import { deleteMaterial } from '../../utils/data/material_data';
 
 export default function MaterialCard({ materialObj, onChange }) {
