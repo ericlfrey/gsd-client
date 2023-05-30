@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-// import { createTask, updateTask } from '../../api/taskData';
 import formStyles from '../../styles/FormStyles.module.css';
 import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createTask, updateTask } from '../../utils/data/task_data';
@@ -14,7 +13,7 @@ const initialState = {
   details: '',
   date_created: '',
   due_date: '',
-  status: '',
+  status: 'Not Started',
 };
 
 export default function TaskForm({ projectId, taskObj }) {
@@ -24,7 +23,7 @@ export default function TaskForm({ projectId, taskObj }) {
 
   useEffect(() => {
     if (taskObj.id) setFormInput(taskObj);
-  }, [taskObj]);
+  }, [projectId, taskObj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,13 +36,10 @@ export default function TaskForm({ projectId, taskObj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskObj.id) {
-      updateTask(formInput).then(() => router.push(`/task/${taskObj.id}`));
+      updateTask(formInput).then(() => router.push(`/project/${projectId}`));
     } else {
-      const payload = { ...formInput, date_created: new Date(), project_id: projectId };
-      createTask(payload).then(({ name }) => {
-        const patchPayload = { id: name };
-        updateTask(patchPayload).then(() => router.push(`/project/${projectId}`));
-      });
+      const payload = { ...formInput, date_created: new Date().toISOString().split('T')[0], project: projectId };
+      createTask(payload).then(() => router.push(`/project/${projectId}`));
     }
   };
 
