@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-// import { getProjectTasks } from '../../api/taskData';
-// import { createMaterial, updateMaterial } from '../../api/materialData';
 import formStyles from '../../styles/FormStyles.module.css';
 import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createMaterial, updateMaterial } from '../../utils/data/material_data';
+import { getSingleProject } from '../../utils/data/project_data';
 
 const initialState = {
   id: '',
-  project_id: '',
-  task_id: '',
-  material_name: '',
+  project: 0,
+  task: 0,
+  name: '',
   price: '',
   quantity: '',
   acquired: false,
@@ -20,14 +19,13 @@ const initialState = {
 
 export default function MaterialForm({ projectId, materialObj }) {
   const [formInput, setFormInput] = useState(initialState);
-  // const [projectTasks, setProjectTasks] = useState([]);
+  const [project, setProject] = useState({});
 
   const router = useRouter();
 
   useEffect(() => {
-    // getProjectTasks(projectId).then(setProjectTasks);
-    // if (materialObj.firebaseKey) setFormInput(materialObj);
-  }, [materialObj, projectId]);
+    if (projectId) getSingleProject(projectId).then(setProject);
+  }, [projectId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,11 +40,8 @@ export default function MaterialForm({ projectId, materialObj }) {
     if (materialObj.id) {
       updateMaterial(formInput).then(router.push(`/project/${projectId}`));
     } else {
-      const payload = { ...formInput, project_id: projectId };
-      createMaterial(payload).then(({ name }) => {
-        const patchPayload = { id: name };
-        updateMaterial(patchPayload).then(router.push(`/project/${projectId}`));
-      });
+      const payload = { ...formInput, project: projectId };
+      createMaterial(payload).then(router.push(`/project/${projectId}`));
     }
   };
 
@@ -59,8 +54,8 @@ export default function MaterialForm({ projectId, materialObj }) {
             <Form.Control
               className={formStyles.formInputField}
               type="text"
-              name="material_name"
-              value={formInput.material_name}
+              name="name"
+              value={formInput.name}
               onChange={handleChange}
               autoComplete="off"
               required
@@ -94,32 +89,32 @@ export default function MaterialForm({ projectId, materialObj }) {
               required
             />
           </Form.Group>
-          {/* {projectTasks.length
+          {project?.tasks?.length
             ? (
               <Form.Group className="mb-3">
                 <Form.Label>Assign to Task</Form.Label>
                 <Form.Select
                   className={formStyles.formInputField}
-                  name="task_id"
+                  name="task"
                   onChange={handleChange}
                   value={formInput.task_id}
                   required
                 >
                   <option value="">Choose</option>
                   {
-                    projectTasks.map((task) => (
+                    project?.tasks?.map((task) => (
                       <option
                         key={task.id}
                         value={task.id}
                       >
-                        {task.task_name}
+                        {task.name}
                       </option>
                     ))
                   }
                 </Form.Select>
               </Form.Group>
             )
-            : ''} */}
+            : ''}
           {materialObj.id
             ? (
               <Form.Group className="mb-3">
@@ -153,10 +148,10 @@ export default function MaterialForm({ projectId, materialObj }) {
 MaterialForm.propTypes = {
   projectId: PropTypes.string,
   materialObj: PropTypes.shape({
-    id: PropTypes.number,
-    project_id: PropTypes.string,
-    task_id: PropTypes.string,
-    material_name: PropTypes.string,
+    id: PropTypes.string,
+    project: PropTypes.number,
+    task: PropTypes.number,
+    name: PropTypes.string,
     price: PropTypes.string,
     quantity: PropTypes.string,
     acquired: PropTypes.bool,
