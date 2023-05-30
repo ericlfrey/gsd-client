@@ -21,7 +21,7 @@ export default function MaterialDetails({ materialId }) {
   }, [materialId]);
 
   const handleDeleteMaterial = () => {
-    if (window.confirm(`Are you sure you want to delete "${material.material_name}"? This task cannot be undone.`)) {
+    if (window.confirm(`Are you sure you want to delete "${material.name}"? This task cannot be undone.`)) {
       deleteMaterial(materialId).then(router.push(`/project/${project.id}`));
     }
   };
