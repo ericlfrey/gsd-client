@@ -4,11 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Dropdown } from 'react-bootstrap';
 import Link from 'next/link';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import cardStyles from '../../styles/CardStyles.module.css';
+import { deleteProject } from '../../utils/data/project_data';
 
 export default function ProjectDetails({ project }) {
-  // const router = useRouter();
+  const router = useRouter();
 
   const displayDate = new Date(project.date_created);
   const totalCost = project.materials?.length > 0
@@ -18,9 +19,9 @@ export default function ProjectDetails({ project }) {
     : '0';
 
   const handleDelete = () => {
-    // if (window.confirm(`Are you sure you want to delete "${project.title}"? This task cannot be undone.`)) {
-    //   deleteProjectDetails(project.id).then(() => router.push('/'));
-    // }
+    if (window.confirm(`Are you sure you want to delete "${project.title}"? This task cannot be undone.`)) {
+      deleteProject(project.id).then(() => router.push('/'));
+    }
   };
 
   return (

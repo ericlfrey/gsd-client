@@ -8,9 +8,6 @@ import { createMaterial, updateMaterial } from '../../utils/data/material_data';
 import { getSingleProject } from '../../utils/data/project_data';
 
 const initialState = {
-  // id: 0,
-  // project: 0,
-  // task: 0,
   name: '',
   price: 0,
   quantity: 0,

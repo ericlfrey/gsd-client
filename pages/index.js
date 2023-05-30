@@ -7,14 +7,15 @@ import { Card } from 'react-bootstrap';
 import ProjectCard from '../components/Cards/ProjectCard';
 import { useAuth } from '../utils/context/authContext';
 import pagesStyles from '../styles/PagesStyles.module.css';
-import { getAllProjects } from '../utils/data/project_data';
+import { getUserProjects } from '../utils/data/project_data';
 
 function Home() {
   const [projects, setProjects] = useState([]);
   const { user } = useAuth();
+  const displayName = `${user.first_name} ${user.last_name}`;
 
   useEffect(() => {
-    getAllProjects().then((userProjects) => setProjects(userProjects));
+    getUserProjects(user.uid).then((userProjects) => setProjects(userProjects));
   }, [user]);
 
   return (
@@ -23,7 +24,7 @@ function Home() {
         <title>Home</title>
       </Head>
       <div className={pagesStyles.headingDiv}>
-        <h4 className={pagesStyles.pageHeading}>{user.displayName}'s Projects:</h4>
+        <h4 className={pagesStyles.pageHeading}>{displayName}'s Projects:</h4>
       </div>
       {
         projects.length

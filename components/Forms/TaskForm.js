@@ -7,8 +7,6 @@ import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createTask, updateTask } from '../../utils/data/task_data';
 
 const initialState = {
-  // id: '',
-  // project: '',
   name: '',
   details: '',
   date_created: '',
