@@ -30,7 +30,7 @@ export default function ViewTaskPage() {
       {task.materials?.length ? <h4>Task Materials:</h4> : ''}
       {task.materials?.map((material) => (
         <MaterialCard
-          key={material.taskId}
+          key={material.id}
           materialObj={material}
           onChange={getTaskDetails}
         />
