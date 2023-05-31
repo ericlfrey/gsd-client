@@ -9,6 +9,7 @@ const checkUser = (uid) => new Promise((resolve, reject) => {
       uid,
     }),
     headers: {
+      Authorization: uid,
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
@@ -22,6 +23,7 @@ const registerUser = (userInfo) => new Promise((resolve, reject) => {
     method: 'POST',
     body: JSON.stringify(userInfo),
     headers: {
+      Authorization: userInfo.uid,
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
