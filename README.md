@@ -1,6 +1,8 @@
 # Get Shit Done -- Full Stack Version!
 This is a full stack version of my Nashville Software School Front End Capstone: [Get Shit Done](https://github.com/ericlfrey/PROject-Planner)
 
+[Video Walkthrough!](https://www.loom.com/share/3134bf70d1d0484dbd500e74ae8708b7) - Loom Walkthrough
+
 ![logo](https://user-images.githubusercontent.com/107942776/223236457-7dfa7824-1aa7-4609-9841-a8923173329d.png)
 
 ## Topics
@@ -16,6 +18,9 @@ This is a full stack version of my Nashville Software School Front End Capstone:
 Get Shit Done is a Project Planning App that allows a User to Create, Read, Update and Delete a Project, and then maintain full CRUD on  Tasks and Materials associated with the Project. 
 
 Planning is hard. Maintaining details on several projects at once can easily lead to disorganization. GSD was designed to help organize details and maintain the scope of several projects at once, all in one place. Not only can Tasks be easily seen in the Project Details for initial planning and implementation, but also Materials are easliy assigned to Tasks, and also tallied up so the User can see the Estimated Cost of the Project.
+
+[Video Walkthrough!](https://www.loom.com/share/3134bf70d1d0484dbd500e74ae8708b7) - Loom Walkthrough
+
 
 ## MVP Features 
 
