@@ -64,7 +64,7 @@ export default function MaterialForm({ projectId, materialObj }) {
         price: Number(formInput.price),
         quantity: Number(formInput.quantity),
       };
-      createMaterial(newMaterial, user.uid).then(router.push(`/project/${projectId}`));
+      createMaterial(newMaterial, user.uid).then(() => router.push(`/project/${projectId}`));
     }
   };
 

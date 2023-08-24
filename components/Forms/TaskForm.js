@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import formStyles from '../../styles/FormStyles.module.css';
 import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createTask, updateTask } from '../../utils/data/task_data';
-import { useAuth } from '../../utils/context/authContext';
+// import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
   name: '',
@@ -19,7 +19,7 @@ export default function TaskForm({ projectId, taskObj }) {
   const [formInput, setFormInput] = useState(initialState);
 
   const router = useRouter();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   useEffect(() => {
     if (taskObj.id) setFormInput(taskObj);
@@ -38,8 +38,12 @@ export default function TaskForm({ projectId, taskObj }) {
     if (taskObj.id) {
       updateTask(formInput).then(() => router.push(`/project/${taskObj.project?.id}`));
     } else {
-      const payload = { ...formInput, date_created: new Date().toISOString().split('T')[0], project: projectId };
-      createTask(payload, user.uid).then(() => router.push(`/project/${projectId}`));
+      const newTask = {
+        ...formInput,
+        date_created: new Date().toISOString().split('T')[0],
+        project: projectId,
+      };
+      createTask(newTask).then(() => router.push(`/project/${projectId}`));
     }
   };
 
@@ -79,6 +83,7 @@ export default function TaskForm({ projectId, taskObj }) {
               name="due_date"
               value={formInput.due_date}
               onChange={handleChange}
+              required
             />
           </Form.Group>
           {taskObj.id

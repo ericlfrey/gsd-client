@@ -48,12 +48,11 @@ const getSingleTask = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createTask = (taskObj, uid) => new Promise((resolve, reject) => {
+const createTask = (taskObj) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/tasks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `${uid}`,
     },
     body: JSON.stringify(taskObj),
   })
