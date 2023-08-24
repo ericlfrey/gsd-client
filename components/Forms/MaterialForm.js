@@ -6,6 +6,7 @@ import formStyles from '../../styles/FormStyles.module.css';
 import GoBackBtn from '../GoBackBtn/GoBackBtn';
 import { createMaterial, updateMaterial } from '../../utils/data/material_data';
 import { getSingleProject } from '../../utils/data/project_data';
+import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
   name: '',
@@ -19,6 +20,7 @@ export default function MaterialForm({ projectId, materialObj }) {
   const [project, setProject] = useState({});
 
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (projectId) getSingleProject(projectId).then(setProject);
@@ -62,7 +64,7 @@ export default function MaterialForm({ projectId, materialObj }) {
         price: Number(formInput.price),
         quantity: Number(formInput.quantity),
       };
-      createMaterial(newMaterial).then(router.push(`/project/${projectId}`));
+      createMaterial(newMaterial, user.uid).then(router.push(`/project/${projectId}`));
     }
   };
 
