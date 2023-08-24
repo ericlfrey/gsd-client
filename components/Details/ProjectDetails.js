@@ -40,9 +40,9 @@ export default function ProjectDetails({ project }) {
                   <Link passHref href={`/project/edit/${project.id}`}>
                     <Dropdown.Item className={cardStyles.dropdownItem}>Edit Project Name</Dropdown.Item>
                   </Link>
-                  <Link passHref href={`/add_user/${project.id}`}>
+                  {/* <Link passHref href={`/add_user/${project.id}`}>
                     <Dropdown.Item className={cardStyles.dropdownItem}>Add Another User</Dropdown.Item>
-                  </Link>
+                  </Link> */}
                   <Link passHref href={`/task/new/${project.id}`}>
                     <Dropdown.Item className={cardStyles.dropdownItem}>Add Task</Dropdown.Item>
                   </Link>
